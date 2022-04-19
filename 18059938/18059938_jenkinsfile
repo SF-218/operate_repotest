@@ -1,0 +1,37 @@
+pipeline {
+      agent any
+      stages {
+        stage('18059938 Stage One') {
+        steps {
+            echo '18059938 Start of Pipeline'
+          }
+		  }
+      }
+		stage('18059938 Stage Two') {
+		steps {
+			input('Push changes to Production?')
+		}
+		}
+		stage('18059938 Stage Three') {
+		steps {
+			sh '''#!/bin/bash
+                 targets=puppetclient1;
+                 locate_script='/testdir/18059938/script_dir/18059938_script.sh';
+                 docker cp $locate_script $targets://$locate_script;
+                 bolt script run $locate_script -t $targets -u dockeradm -p 18059938 --no-host-key-check --run-as root;
+                 '''
+
+			echo "Stage 3 Completed - 18059938"
+		}
+		}
+		stage('18059938 Stage Four') {
+		steps {
+			echo "Production website tested working"
+		}
+		}
+		stage('18059938 Stage Four') {
+		steps {
+			echo "Production website is updated successfully"
+		}
+		}
+}
